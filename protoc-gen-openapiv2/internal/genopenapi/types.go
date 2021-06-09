@@ -157,7 +157,10 @@ type schemaCore struct {
 	Ref     string          `json:"$ref,omitempty"`
 	Example json.RawMessage `json:"example,omitempty"`
 
-	Items *openapiItemsObject `json:"items,omitempty"`
+	// Properties can be recursively defined
+	Properties *openapiSchemaObjectProperties `json:"properties,omitempty"`
+
+	Items      *openapiItemsObject            `json:"items,omitempty"`
 
 	// If the item is an enumeration include a list of all the *NAMES* of the
 	// enum values.  I'm not sure how well this will work but assuming all enums
@@ -235,9 +238,8 @@ func (op openapiSchemaObjectProperties) MarshalJSON() ([]byte, error) {
 // http://swagger.io/specification/#schemaObject
 type openapiSchemaObject struct {
 	schemaCore
-	// Properties can be recursively defined
-	Properties           *openapiSchemaObjectProperties `json:"properties,omitempty"`
-	AdditionalProperties *openapiSchemaObject           `json:"additionalProperties,omitempty"`
+
+	AdditionalProperties *openapiSchemaObject `json:"additionalProperties,omitempty"`
 
 	Description string `json:"description,omitempty"`
 	Title       string `json:"title,omitempty"`
